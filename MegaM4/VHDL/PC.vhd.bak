@@ -1,0 +1,77 @@
+--Definicion de las bibliotecas 
+library IEEE; 
+use IEEE.std_logic_1164.all;
+
+--******************************************************--
+-- DEFINICIÓN DE ENTIDAD                                --
+--******************************************************--
+
+entity PC is
+port(
+	--Entradas
+	Reloj: in std_logic;
+	Reset: in std_logic;
+	control_PC: in std_logic;                                                                                                                            
+	--Salidas
+	PC_Control: out std_logic;
+	Qs: out std_logic_vector(10 downto 0)
+		
+		);
+	  
+end Entity PC;             
+
+--******************************************************--
+--DEFINICIÓN DE ARQUITECTURA                                        --
+--******************************************************--
+
+architecture PCArch of PC is
+
+--******************************************************--
+--DEFINICIÓN DE SEÑALES DE CONEXIÓN                                        
+--******************************************************--
+
+component dffe
+port(D,clk,Clrn,Prn,Ena: in std_logic;
+	Q:out std_logic
+);
+end component;
+
+signal Q: std_logic_vector(10 downto 0);
+signal enable: std_logic_vector(10 downto 0);
+
+
+--******************************************************--
+--Instancias y Conectividad
+--******************************************************
+begin
+
+	D1:  dffe port map(not Q(0),Reloj,Reset,'1', enable (0) ,Q(0));
+	D2:  dffe port map(not Q(1),Reloj,Reset,'1', enable (1) ,Q(1));
+	D3:  dffe port map(not Q(2),Reloj,Reset,'1', enable (2) ,Q(2));
+	D4:  dffe port map(not Q(3),Reloj,Reset,'1', enable (3) ,Q(3));
+	D5:  dffe port map(not Q(4),Reloj,Reset,'1', enable (4) ,Q(4));
+	D6:  dffe port map(not Q(5),Reloj,Reset,'1', enable (5) ,Q(5));
+	D7:  dffe port map(not Q(6),Reloj,Reset,'1', enable (6) ,Q(6));
+	D8:  dffe port map(not Q(7),Reloj,Reset,'1', enable (7) ,Q(7));	
+	D9:  dffe port map(not Q(8),Reloj,Reset,'1', enable (8) ,Q(8));	
+	D10: dffe port map(not Q(9),Reloj,Reset,'1', enable (9) ,Q(9));	
+	
+	enable (0) <= control_PC;
+	enable (1) <= Q(0) 		AND control_PC;
+	enable (2) <= enable(1) AND Q(1) AND control_PC;
+	enable (3) <= enable(2) AND Q(2) AND control_PC;
+	enable (4) <= enable(3) AND Q(3) AND control_PC;
+	enable (5) <= enable(4) AND Q(4) AND control_PC;
+	enable (6) <= enable(5) AND Q(5) AND control_PC;
+	enable (7) <= enable(6) AND Q(6) AND control_PC;
+	enable (8) <= enable(7) AND Q(7) AND control_PC;
+	enable (9) <= enable(8) AND Q(8) AND control_PC;
+
+	
+	
+	PC_Control<= Q(0) AND Q(1) AND Q(2) AND Q(3);
+	Qs<=Q;
+
+End  PCArch;
+
+

@@ -1,0 +1,543 @@
+0. Registers[1][15:0] <= "1111 1111 1111 1111";                                                        -- Initialize SP
+   -> 1.
+
+1. Address[10:0] = Pc; Address[11] = "0";                                                              -- Fetch 1.1
+   -> 2.
+
+2. Address[10:0] = Pc; Address[11] = "0";                                                              -- Fetch 1.2
+   -> 3.
+
+3. Ir <= DataRom;
+   Address[10:0] = Pc; Address[11] = "0";                                                              -- Fetch 1.3 - Final
+   -> 4.
+
+4. Pc <= Incr(Pc);
+     -- IR : 0001 -> Mover dato de programa a acumulador
+   ->( ((IR[15]'.IR[14]'.IR[13]'.IR[12] ).(IR[10] ))                 X  5)+                            -- Verifica Bit IR[10]==1 THEN Fetch 2
+     ( ((IR[15]'.IR[14]'.IR[13]'.IR[12] ).(IR[10]'))                 X 15)+                            -- Verifica Bit IR[10]==0 THEN MovPAd
+
+     -- IR : 0100 -> Mover dato de programa a memoria
+
+     (  (IR[15]'.IR[14] .IR[13]'.IR[12]')                            X  5)+                            -- Go to Fetch2
+
+     -- IR : 0101 -> Mover dato entre acumulador, memoria o RPG
+
+     ( ((IR[15]'.IR[14] .IR[13]'.IR[12] ).(IR[10]'.IR[09]'.IR[08]')) X 17)+                            -- Verifica Bit IR[08]==0 THEN MovAMa
+     ( ((IR[15]'.IR[14] .IR[13]'.IR[12] ).(IR[10]'.IR[09] .IR[08]')) X 18)+                            -- Verifica Bit IR[08]==0 THEN MovMAa
+     ( ((IR[15]'.IR[14] .IR[13]'.IR[12] ).(IR[10]'.        IR[08] )) X  5)+                            -- Verifica Bit IR[08]==1 THEN Fetch 2
+     ( ((IR[15]'.IR[14] .IR[13]'.IR[12] ).(IR[10] .IR[09]'        )) X 20)+                            -- Verifica Bit IR[08]==0 THEN MovAR
+     ( ((IR[15]'.IR[14] .IR[13]'.IR[12] ).(IR[10] .IR[09]         )) X 21)+                            -- Verifica Bit IR[08]==0 THEN MovRA
+
+     -- IR : 1010 -> Call / Return
+
+     ( ((IR[15] .IR[14]'.IR[13] .IR[12]').(IR[11]'))                 X 22)+
+     ( ((IR[15] .IR[14]'.IR[13] .IR[12]').(IR[11] ))                 X 25)+
+
+     -- IR : 0000 -> No Operation
+
+     ( ((IR[15]'.IR[14]'.IR[13]'.IR[12]').(IR[11]'))                 X 28)+
+     ( ((IR[15]'.IR[14]'.IR[13]'.IR[12]').(IR[11] ))                 X 29)+
+
+     -- IR : 0010 -> Shifts
+
+     ( ((IR[15]'.IR[14]'.IR[13] .IR[12]').(IR[09]'))                 X 31)+
+     ( ((IR[15]'.IR[14]'.IR[13] .IR[12]').(IR[09] ))                 X 32)+
+
+     -- IR : 0110 -> Jmp Inconditional
+
+     ( ((IR[15]'.IR[14] .IR[13] .IR[12]').(IR[11]'))                 X 33)+
+     ( ((IR[15]'.IR[14] .IR[13] .IR[12]').(IR[11] ))                 X 36)+
+
+     -- IR : 1110 -> Jmp Conditional
+
+     (  (IR[15] .IR[14] .IR[13] .IR[12]')                            X 37)+
+
+     -- IR : 0011 -> Logic Operations
+
+     ( ((IR[15]'.IR[14]'.IR[13] .IR[12] ).(IR[11]'.IR[10]'))         X 40)+
+     ( ((IR[15]'.IR[14]'.IR[13] .IR[12] ).(IR[11]'.IR[10] ))         X 41)+
+     ( ((IR[15]'.IR[14]'.IR[13] .IR[12] ).(IR[11] .IR[10]'))         X 42)+
+
+     -- IR : 0111 -> Arithmetic Operations
+
+     ( ((IR[15]'.IR[14] .IR[13] .IR[12] ).(IR[11]'.IR[10]'.IR[09] )) X 43)+
+     ( ((IR[15]'.IR[14] .IR[13] .IR[12] ).(IR[11]'.IR[10] .IR[09] )) X 44)+
+     ( ((IR[15]'.IR[14] .IR[13] .IR[12] ).(IR[11] .IR[10]'.IR[09] )) X 45)+
+     ( ((IR[15]'.IR[14] .IR[13] .IR[12] ).(IR[11]'.IR[10] .IR[09]')) X 46)+
+
+     -- IR : 1011 -> Multiply
+
+     ( ((IR[15] .IR[14]'.IR[13] .IR[12] )                            X 47)+
+
+     -- IR : 1101 -> Push
+
+     ( ((IR[15] .IR[14] .IR[13]'.IR[12] ).(IR[11]'.IR[10]'.IR[09]')) X 49)+
+     ( ((IR[15] .IR[14] .IR[13]'.IR[12] ).(IR[11]'.IR[10]'.IR[09] )) X 50)+
+     ( ((IR[15] .IR[14] .IR[13]'.IR[12] ).(IR[11]'.IR[10] .IR[09]')) X 51)+
+     ( ((IR[15] .IR[14] .IR[13]'.IR[12] ).(IR[11]'.IR[10] .IR[09] )) X 52)+
+     ( ((IR[15] .IR[14] .IR[13]'.IR[12] ).(IR[11] .IR[10]'.IR[09]')) X 53)+
+     ( ((IR[15] .IR[14] .IR[13]'.IR[12] ).(IR[11] .IR[10]'.IR[09] )) X 05)+
+
+     -- IR : 1001 -> Pop
+
+     ( ((IR[15] .IR[14]'.IR[13]'.IR[12] ).(        IR[10] +IR[09] )) X 67)+
+     ( ((IR[15] .IR[14]'.IR[13]'.IR[12] ).(        IR[10]'.IR[09]')) X 67)+
+     ( ((IR[15] .IR[14]'.IR[13]'.IR[12] ).(IR[11] .IR[10]'.IR[09] )) X 05)+
+
+     -- IR : 1111 -> E/D Interruption
+
+     ( ((IR[15] .IR[14] .IR[13] .IR[12] ).(IR[11]'))                 X 71)+
+     ( ((IR[15] .IR[14] .IR[13] .IR[12] ).(IR[11] ))                 X 72).
+
+
+-- Instruccion para Obtener un Dato de la posicion PC+1
+
+ 5. Address[10:0] = Pc; Address[11] = "0";    -- Fetch 2.1
+    -> 6.
+
+ 6. Address[10:0] = Pc; Address[11] = "00";    -- Fetch 2.2
+    -> 7.
+
+ 7. IrL <= DataRom;
+    Address[10:0] = Pc; Address[11] = "0";    -- Fetch 2.3 - Final
+    -> 8.
+
+ 8. PC <= Inc(Pc);
+    -> (  (IR[15]'.IR[14]'.IR[13]'.IR[12] )                   X 15)+                                   -- Verifica OpCode de Instruccion MovPA
+       (  (IR[15]'.IR[14] .IR[13]'.IR[12]')                   X 16)+                                   -- Verifica OpCode de Instruccion MovPMa
+       ( ((IR[15]'.IR[14] .IR[13]'.IR[12] ).(IR[10]'.IR[09]') X 17)+                                   -- Verifica OpCode y OpMode de Instruccion MovAM
+       ( ((IR[15]'.IR[14] .IR[13]'.IR[12] ).(IR[10]'.IR[09] ) X 18)+                                   -- Verifica OpCode uy OpMode de Instruccion MovMA
+       (  (IR[15] .IR[14] .IR[13]'.IR[12] )                   X 55)+
+       (  (IR[15] .IR[14]'.IR[13]'.IR[12] )                   X 67).
+
+-- Instruccion para guardar un dato en la RWM
+
+ 9. Address[11:0] = Mar;                                                                               -- Escribir dato en memoria
+    RNW     = '1';
+    RwmData = MDR;
+    -> 10.
+
+10. Address[11:0] = Mar;                                                                               -- Escribir dato en memoria
+    RNW     = '1';
+    RwmData = MDR;
+    -> 11.
+
+11. Address[11:0] = Mar;                                                                               -- Escribir dato en memoria
+    RNW     = '1';
+    RwmData = MDR;
+    -> 73.
+
+-- Instruccion para extraer un dato de la RWM
+
+12. Address[11:0] = Mar;
+    RNW     = '0';
+    -> 13.
+
+13. Address[11:0] = Mar;
+    RNW     = '0';
+    -> 14.
+
+14. Address[11:0] = Mar;
+    RNW  = '0';
+    MDR <= RwmData;
+    -> ((IR[15]'.IR[14] .IR[13]'.IR[12] ) X 19)+
+       ((IR[15] .IR[14]'.IR[13]'.IR[12] ) X 56)+
+       ((IR[15] .IR[14]'.IR[13]'.IR[12] ) X 73).
+
+-- Instruccion 001 : Mover dato de programa a acumulador
+
+15. Acc1[ 9: 0]*IR[11]' <= ((              IR[ 9: 0]              .IR[10]')+(IRL[ 9: 0].IR[10] ));     -- Verifica AB==0 (IR[11]==0) y direcciona la primera parte del dato segun IR[10]
+    Acc1[15:10]*IR[11]' <= (({IR[9],IR[9],IR[9],IR[9],IR[9],IR[9]}.IR[10]')+(IRL[15:10].IR[10] ));     -- Verifica AB==0 (IR[11]==0) y direcciona la segunda parte del dato segun IR[10]
+    Acc2[ 9: 0]*IR[11]  <= ((              IR[ 9: 0 ]             .IR[10]')+(IRL[ 9: 0].IR[10] ));     -- Verifica AB==0 (IR[11]==1) y direcciona la primera parte del dato segun IR[10]
+    Acc2[15:10]*IR[11]  <= (({IR[9],IR[9],IR[9],IR[9],IR[9],IR[9]}.IR[10]')+(IRL[15:10].IR[10] ));     -- Verifica AB==0 (IR[11]==1) y direcciona la segunda parte del dato segun IR[10]
+    -> 73.
+
+-- Instruccion 0100 : Mover Dato de programa a memoria
+
+16. MDR <= IRL;
+    -> 16.1
+
+
+16.1 Mar <= IR[11:0];
+     -> 9.
+
+-- Instruccion 0101 / OpMode 00 : Mover Dato de acumulador a memoria
+
+17. Mar [ 7:0] <= (IR[7:0].IR[8]')+(IRL[ 7:0].IR[8] );
+    Mar [11:8] <= ( "0000".IR[8]')+(IRL[11:8].IR[8] );
+    MDR        <= (Acc1.IR[11]')  +(Acc2.IR[11] );
+    -> 9.
+
+-- Instruccion 0101 / OpMode 01 : Mover dato de memoria a acumulador
+
+18. Mar [ 7:0] <= (IR[7:0].IR[8]')+(IRL[ 7:0].IR[8] );
+    Mar [11:8] <= ( "0000".IR[8]')+(IRL[11:8].IR[8] );
+    -> 12.
+
+19. Acc1*IR[11]' <= (MDR);
+    Acc2*IR[11]  <= (MDR);
+    -> 73.
+
+-- Instruccion 0101 / OpMode 10 : Mover dato de acumulador a RPG
+
+20. Registers[IR[8:4]][15:0] <= (Acc1.IR[11]')+(Acc2.IR[11] );
+    -> 73.
+
+-- Instruccion 0101 / OpMode 11 : Mover dato de RPG a acumulador
+
+21. Acc1*IR[11]' <= (Registers[IR[8:4]][15:0]);
+    Acc2*IR[11]  <= (Registers[IR[8:4]][15:0]);
+    -> 73.
+
+-- Instruccion 1010 / OpMode 0 : Llamado a subrutina
+
+22. CR <= "00000000001";
+    MDR[10:00] <= PC;
+    MDR[15:11] <= {PC[10],PC[10],PC[10],PC[10],PC[10]};
+    -> 56.
+
+23. Cr <= Decr(CR);
+    MDR <= SR;
+    -> 56.
+
+24. Pc <= IR[10:9];
+    -> 73;
+
+-- Instruccion 1010 / OpMode 1 : Retorno de subrutina
+
+25. CR <= "00000000001";
+    -> 67.
+
+26. CR <= Decr(CR);
+    SR <= MDR;
+    -> 67.
+
+27. PC <= MDR[10:00];
+    -> 73.
+
+-- Instruccion 0000 / OpMode 0 : No Operation
+
+28. NULL
+    -> 73;
+
+-- Instruccion 0000 / OpMode 1 : Detiene el procesador
+
+29. CR <= IR[10:0];
+    -> 30.
+
+30. CR <= Decr(CR);
+    -> ( (CR[10].CR[9].CR[8].CR[7].CR[6].CR[5].CR[4].CR[3].CR[2].CR[1].CR[0]) X 73)
+       ( (CR[10]+CR[9]+CR[8]+CR[7]+CR[6]+CR[5]+CR[4]+CR[3]+CR[2]+CR[1]+CR[0]) X 30).
+
+-- Instruccion 0010 / OpMode 0 : Rotacion / Shift
+
+31. Acc1[15]   *IR[11]' <= ((Acc1[00]   .IR[10]')+(Acc1[14]   .IR[10] ));
+    Acc1[14:01]*IR[11]' <= ((Acc1[15:02].IR[10]')+(Acc1[13:00].IR[10] ));
+    Acc1[00]   *IR[11]' <= ((Acc1[01]   .IR[10]')+(Acc1[15]   .IR[10] ));
+
+    Acc2[15]   *IR[11]  <= ((Acc2[00]   .IR[10]')+(Acc2[14]   .IR[10] ));
+    Acc2[14:01]*IR[11]  <= ((Acc2[15:02].IR[10]')+(Acc2[13:00].IR[10] ));
+    Acc2[00]   *IR[11]  <= ((Acc2[01]   .IR[10]')+(Acc2[15]   .IR[10] ));
+    -> 73.
+
+-- Instruccion 0010 / OpMode 1 : Rotacion / Arithmetic Shift
+
+32. Acc1[15]   *IR[11]' <=      Acc1[15];
+    Acc1[14:01]*IR[11]' <= ((Acc1[15:02].IR[10]')+(Acc1[13:00].IR[10] ));
+    Acc1[00]   *IR[11]' <= ((Acc1[01]   .IR[10]')+(Acc1[15]   .IR[10] ));
+
+    Acc2[15]   *IR[11]  <=      Acc2[15];
+    Acc2[14:01]*IR[11]  <= ((Acc2[15:02].IR[10]')+(Acc2[13:00].IR[10] ));
+    Acc2[00]   *IR[11]  <= ((Acc2[01]   .IR[10]')+(Acc2[15]   .IR[10] ));
+    -> 73.
+
+-- Instruccion 0110 / OpMode 0 : Salto de programa incondicional y relativo
+
+33. Acc1[10:00] <= PC;
+    Acc1[15:11] <= {PC[10],PC[10],PC[10],PC[10],PC[10]};
+    Acc2[10:00] <= IR[10:0];
+    Acc2[15:00] <= {IR[10],IR[10],IR[10],IR[10],IR[10]};
+    -> 34;
+
+34. Acc2 <= SUMA(Acc2, Acc1);
+    -> 35.
+
+35. PC <= Acc2[10:00];
+    -> 73.
+
+-- Instruccion 0110 / OpMode 1 : Salto de programa incondicional y Absoluto
+
+36. Pc <= IR[10:0]
+    -> 73.
+
+-- Instruccion 1110 Seleccion: Salto de programa Condicional                                           -- Los saltos de programa condicionales usan Reg3
+                                                                                                       -- Se asume un dato valido en Reg3 (10 bits Signed)
+
+37. Acc2 <= Registros[3][15:0];
+    -> ( ((IR[11]'.IR[10]'.IR[09]').(SR[0] )) X 38)+
+       ( ((IR[11]'.IR[10]'.IR[09] ).(SR[1] )) X 38)+
+       ( ((IR[11]'.IR[10] .IR[09]').(SR[2] )) X 38)+
+       ( ((IR[11]'.IR[10]'.IR[09]').(SR[0]')) X 73)+
+       ( ((IR[11]'.IR[10]'.IR[09] ).(SR[1]')) X 73)+
+       ( ((IR[11]'.IR[10] .IR[09]').(SR[2]')) X 73)+
+       ( ((IR[11] .IR[10]'.IR[09]').(SR[0] )) X 39)+
+       ( ((IR[11] .IR[10]'.IR[09] ).(SR[1] )) X 39)+
+       ( ((IR[11] .IR[10] .IR[09]').(SR[2] )) X 39)+
+       ( ((IR[11] .IR[10]'.IR[09]').(SR[0]')) X 73)+
+       ( ((IR[11] .IR[10]'.IR[09] ).(SR[1]')) X 73)+
+       ( ((IR[11] .IR[10] .IR[09]').(SR[2]')) X 73).
+
+-- Instruccion 1110 / OpMode 000:010 : Salto de programa Condicional relativo
+
+38. Acc1[10:00] <= PC;
+    Acc1[15:11] <= {PC[10],PC[10],PC[10],PC[10],PC[10]};                                               -- Se ingresa el valor almacenado en Reg3 al Acc2
+    -> 34;
+
+-- Instruccion 1110 / OpMode 100:110 : Salto de programa Condicional relativo
+
+39. Pc <= Acc2[10:00];
+    -> 73.
+
+-- Instruccion 0011 / OpMode 00 : OR
+
+40. Acc2 <= Acc1+Acc2;
+    -> 73.
+
+-- Instruccion 0011 / OpMode 00 : AND
+
+41. Acc2 <= Acc1.Acc2;
+    -> 73.
+
+-- Instruccion 0011 / OpMode 00 : NOT
+
+42. Acc2 <= Acc1'
+    -> 73.
+
+-- Instruccion 0111 / OpMode 001 : Suma
+
+43. Acc2 <= SUMA(Acc2, Acc1);
+    -> 73.
+
+-- Instruccion 0111 / OpMode 011 : Resta
+
+44. Acc2 <= RESTA(Acc2, Acc1);                                                                         -- Se opera Acc2-Acc1, se guarda en Acc2
+    -> 73.
+
+-- Instruccion 0111 / OpMode 101 : Complemento a base 2
+
+45. Acc2 <= 2sC(Acc1);
+    -> 73.
+
+-- Instruccion 0111 / OpMode 010 : Comparacion
+
+46. RESTA(Acc2, Acc1);
+    -> 73.
+
+-- Instruccion 1011 : Multiplicacion
+
+47. Multiply(Acc2, Acc1);
+    -> (SR[4]' X 47)+
+       (SR[4]  X 48).
+
+48. Acc2 <= Multiply(Acc2, Acc1);
+    -> 73.
+
+-- Instruccion 1101 / OpMode 000 : Push PC
+
+49. MDR[10:00] <= PC;
+    MDR[15:11] <= {PC[10],PC[10],PC[10],PC[10],PC[10]};
+    -> 56
+
+-- Instruccion 1101 / OpMode 001 : Push Accumulator
+
+50. MDR[15:00] <= (Acc1.IR[08]')+(Acc2.IR[08] );
+    -> 56
+
+-- Instruccion 1101 / OpMode 010 : Push SR
+
+51. MDR[15:00] <= SR;
+    -> 56
+
+-- Instruccion 1101 / OpMode 011 : Push MAR
+
+52. MDR[11:00] <= MAR;
+    MDR[15:12] <= "0000";
+    -> 56
+
+-- Instruccion 1101 / OpMode 100 : Push RPG
+
+53. Acc2 <= Registers[IR[8:4]][15:00];
+    -> 54.
+
+54. MDR <= Acc2;
+    -> 56.
+
+-- Instruccion 1101 / OpMode 101 : Push Memory Data
+
+55. Mar <= IRL[11:00];
+    -> 12.
+
+-- Instruccion del push
+
+56. Address[9:0] = SP; Address[11,10] = '00';                                                          -- Escribir dato en Stack
+    RNW     = '1';
+    RwmData = MDR;
+    -> 57.
+
+57. Address[9:0] = SP; Address[11,10] = '00';                                                          -- Escribir dato en Stack
+    RNW     = '1';
+    RwmData = MDR;
+    -> 58.
+
+58. Address[9:0] = SP; Address[11,10] = '00';                                                          -- Escribir dato en Stack
+    RNW     = '1';
+    RwmData = MDR;
+    -> 59.
+
+59. SP<= Decr(SP);                                                                                     -- Pasar a la siguiente posicion de Stack
+    -> ( ((IR[15] .IR[14]'.IR[13] .IR[12]').(IR[11]').(CR[0] )) X 23)+                                 -- Regresar a instruccion Call (iteraccion 1)
+       ( ((IR[15] .IR[14]'.IR[13] .IR[12]').(IR[11]').(CR[0]')) X 24)+                                 -- Regresar a instruccion Call (iteraccion 2)
+       ( ((IR[15] .IR[14] .IR[13]'.IR[12] )                     X 73 ).
+
+-- Instruccion 1001 / OpMode 000 : Pop Pc
+
+60. Pc <= MDR[10:00];
+    -> 73.
+
+-- Instruccion 1001 / OpMode 000 : Pop Accumulator
+
+61. Acc1*IR[8]' <= MDR;
+    Acc2*IR[8]  <= MDR;
+    -> 73.
+-- Instruccion 1001 / OpMode 000 : Pop SR
+
+62. SR <= MDR;
+    -> 73.
+
+-- Instruccion 1001 / OpMode 000 : Pop MAR
+
+63. MAR <= MDR[11:00];
+    -> 73.
+
+-- Instruccion 1001 / OpMode 000 : Pop RPG
+
+64. Acc2 <= MDR;
+    -> 65.
+
+65. Registros[IR[8:4]][15:00] <= Acc2;
+    -> 73.
+
+-- Instruccion 1001 / OpMode 000 : Pop Memory data
+
+66. MAR <= IRL[11:00];
+    -> 9.
+
+-- Instruccion del pop
+
+67. Address[9:0] = SP; Address[11,10] = '00';
+    RNW     = '0';
+    -> 68.
+
+68. Address[9:0] = SP; Address[11,10] = '00';
+    RNW     = '0';
+    -> 69.
+
+69. Address[9:0] = SP; Address[11,10] = '00';
+    RNW  = '0';
+    MDR <= RwmData;
+    -> 70.
+
+70. SP <= Incr(SP);
+    -> ( ((IR[15] .IR[14]'.IR[13] .IR[12]').(IR[11] .CR[0] ))          X 26)+                         -- Regresar a instruccion Call (iteraccion 1)
+       ( ((IR[15] .IR[14]'.IR[13] .IR[12]').(IR[11] .CR[0]'))          X 27)+
+       ( ((IR[15] .IR[14]'.IR[13]'.IR[12] ).(IR[11]'.IR[10]'.IR[09]')) X 60)+
+       ( ((IR[15] .IR[14]'.IR[13]'.IR[12] ).(IR[11]'.IR[10]'.IR[09] )) X 61)+
+       ( ((IR[15] .IR[14]'.IR[13]'.IR[12] ).(IR[11]'.IR[10] .IR[09]')) X 62)+
+       ( ((IR[15] .IR[14]'.IR[13]'.IR[12] ).(IR[11]'.IR[10] .IR[09] )) X 63)+
+       ( ((IR[15] .IR[14]'.IR[13]'.IR[12] ).(IR[11] .IR[10]'.IR[09]')) X 64)+
+       ( ((IR[15] .IR[14]'.IR[13]'.IR[12] ).(IR[11] .IR[10]'.IR[09] )) X 65)+
+       ( ((IR[15] .IR[14]'.IR[13]'.IR[12] ).(IR[11] .IR[10] .IR[09]')) X 66).
+
+-- Instruccion 1111 / OpMode 0 : Enable Interruption
+
+71. SP[5] <= '1';
+    -> 73.
+
+-- Instruccion 1111 / OpMode 1 : Disable Interruption
+
+72. SP[5] <= '0';
+    -> 73.
+
+-- Interruption Cycle
+
+73. NULL;
+    -> ( (SR[5]')                                                           X  1)+
+       ( (SR[5] ).(IRQ[3]'.IRQ[2]'.IRQ[1]'.IRQ[0]')                         X  1)+
+       ( (SR[5] ).(IRQ[3] +IRQ[2] +IRQ[1] +IRQ[0] ).(IRQ[0] )               X 78)
+       ( (SR[5] ).(IRQ[3] +IRQ[2] +IRQ[1] +IRQ[0] ).(IRQ[1] .SR[6]')        X 78)
+       ( (SR[5] ).(IRQ[3] +IRQ[2] +IRQ[1] +IRQ[0] ).(IRQ[2] .SR[6]'.SR[7]') X 78)
+       ( (SR[5] ).(IRQ[3] +IRQ[2] +IRQ[1] +IRQ[0] ).(IRQ[1] .SR[6] )        X  1)
+       ( (SR[5] ).(IRQ[3] +IRQ[2] +IRQ[1] +IRQ[0] ).(IRQ[2] .SR[6] .SR[7] ) X  1)
+
+-- Push instruction for interruption cycle
+
+74. Address[9:0] = SP; Address[11,10] = '00';                                                         -- Escribir dato en Stack
+    RNW     = '1';
+    RwmData = MDR;
+    -> 75.
+
+75. Address[9:0] = SP; Address[11,10] = '00';                                                         -- Escribir dato en Stack
+    RNW     = '1';
+    RwmData = MDR;
+    -> 76.
+
+76. Address[9:0] = SP; Address[11,10] = '00';                                                         -- Escribir dato en Stack
+    RNW     = '1';
+    RwmData = MDR;
+    -> 77.
+
+77. SP<= Decr(SP);
+    -> ((CR[1]'.CR[0]') X 82)+
+       ((CR[1]'.CR[0] ) X 81)+
+       ((CR[1] .CR[0]') X 80)+
+       ((CR[1] .CR[0] ) X 79).
+
+--
+
+78. CR <= "00000000011";
+    MDR <= Acc1;
+    -> 74.
+
+79. Cr <= Decr(CR);
+    MDR <= Acc2;
+    -> 74.
+
+80. Cr <= Decr(CR);
+    MDR <= SR[4:0];
+    MDR <= "00000000000";
+    -> 74.
+
+81. Cr <= Decr(CR);
+    MDR <= PC;
+    -> 74.
+
+--
+
+82. NULL;
+    -> ( (IRQ[0] )               X 83)+
+       ( (IRQ[1] .SR[6]')        X 84)+
+       ( (IRQ[2] .SR[6]'.SR[7]') X 85).
+
+83. Pc <= Registros[7][10:0];
+    Ack[0] <= "1";
+    SR[6] <= "1";
+    -> 1.
+
+84. Pc <= Registros[8][10:0];
+    Ack[1] <= "1";
+    SR[7] <= "1";
+    -> 1.
+
+85. Pc <= Registros[9][10:0];
+    SR[8] <= "1";
+    -> 1.

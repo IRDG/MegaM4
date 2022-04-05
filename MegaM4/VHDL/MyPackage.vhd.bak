@@ -1,0 +1,31 @@
+--******************************************************--
+--        PONTIFICIA UNIVERSIDAD JAVERIANA              --
+--                Disegno Digital                       --
+--          Seccion de Tecnicas Digitales               --
+-- 													              --
+-- Titulo :                                             --
+-- Fecha  :  	D:XX M:XX Y:2019                         --
+--******************************************************--
+-- 													              --
+---------------- Package: MyPackage.vhd ------------------
+-- 													              --
+--******************************************************--
+
+LIBRARY IEEE;
+USE IEEE.STD_LOGIC_1164.ALL;
+USE IEEE.NUMERIC_STD.ALL;
+
+USE IEEE.math_real.ALL;
+
+PACKAGE MyPackage IS
+	
+	CONSTANT Word    : INTEGER := 16;
+	CONSTANT PcSize  : INTEGER := 11;
+	CONSTANT Address : INTEGER := 12;
+	CONSTANT SpSize  : INTEGER := 10;
+	
+END PACKAGE MyPackage;
+
+PACKAGE BODY MyPackage IS
+
+END MyPackage;

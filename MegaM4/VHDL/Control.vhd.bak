@@ -1,0 +1,395 @@
+                                                                                                                                                                                                                                                     --Definicion de las bibliotecas 
+library IEEE; 
+use IEEE.std_logic_1164.all;
+
+--******************************************************--
+-- DEFINICIÃ“N DE ENTIDAD                                --
+--******************************************************--
+
+entity Control is
+port(
+--Entradas
+		reloj					: in std_logic;
+		reset					: in std_logic;
+		Validar_Precio		: in std_logic; 
+		Fin_Produccion  	: in std_logic;
+		Reporte				: in std_logic;
+		CR 					: in std_logic_vector (2 downto 0); --bit 0, CR[0], bit 1: CR en cero, bit 2: CR algun uno, activo en alto
+		SR						: in std_logic_vector (4 downto 0);
+		--Salidas
+		Qs : out std_logic_vector (85 downto 0)
+	
+		 );
+	  
+end Entity Control;             
+
+--******************************************************--
+--DEFINICIÃ“N DE ARQUITECTURA                                        --
+--******************************************************--
+
+architecture ControlArch of Control is
+
+--******************************************************--
+--DEFINICIÃ“N DE SEÃ‘ALES DE CONEXIÃ“N                                        
+--******************************************************--
+
+component dffe
+port(D,clk,Clrn,Prn,Ena: in  std_logic;
+	  Q:						 out std_logic
+);
+end component;
+
+signal Q: std_logic_vector(85 downto 0);
+signal D: std_logic_vector(85 downto 0);
+
+--******************************************************--
+--Instancias y Conectividad
+--******************************************************
+begin
+
+			--Salidas
+			FF1 :dffe port map( D(0 ),reloj,'1',  reset, '1', Q(0 )); --Estado 0 empezar SP
+			FF2 :dffe port map( D(1 ),reloj,reset,'1'  , '1', Q(1 ));
+			FF3 :dffe port map( D(2 ),reloj,reset,'1'  , '1', Q(2 ));
+			FF4 :dffe port map( D(3 ),reloj,reset,'1'  , '1', Q(3 ));
+			FF5 :dffe port map( D(4 ),reloj,reset,'1'  , '1', Q(4 ));
+			FF6 :dffe port map( D(5 ),reloj,reset,'1'  , '1', Q(5 ));
+			FF7 :dffe port map( D(6 ),reloj,reset,'1'  , '1', Q(6 ));
+			FF8 :dffe port map( D(7 ),reloj,reset,'1'  , '1', Q(7 ));
+			FF9 :dffe port map( D(8 ),reloj,reset,'1'  , '1', Q(8 ));
+			FF10:dffe port map( D(9 ),reloj,reset,'1'  , '1', Q(9 ));
+			FF11:dffe port map( D(10),reloj,reset,'1'  , '1', Q(10));
+			FF12:dffe port map( D(11),reloj,reset,'1'  , '1', Q(11));
+			FF13:dffe port map( D(12),reloj,reset,'1'  , '1', Q(12));
+			FF14:dffe port map( D(13),reloj,reset,'1'  , '1', Q(13));
+			FF15:dffe port map( D(14),reloj,reset,'1'  , '1', Q(14));
+			FF16:dffe port map( D(15),reloj,reset,'1'  , '1', Q(15));
+			FF17:dffe port map( D(16),reloj,reset,'1'  , '1', Q(16));
+			FF18:dffe port map( D(17),reloj,reset,'1'  , '1', Q(17));
+			FF19:dffe port map( D(18),reloj,reset,'1'  , '1', Q(18));
+			FF20:dffe port map( D(19),reloj,reset,'1'  , '1', Q(19));
+			FF21:dffe port map( D(20),reloj,reset,'1'  , '1', Q(20));
+			FF22:dffe port map( D(21),reloj,reset,'1'  , '1', Q(21));
+			FF23:dffe port map( D(22),reloj,reset,'1'  , '1', Q(22));
+			FF24:dffe port map( D(23),reloj,reset,'1'  , '1', Q(23));
+			FF25:dffe port map( D(24),reloj,reset,'1'  , '1', Q(24));
+			FF26:dffe port map( D(25),reloj,reset,'1'  , '1', Q(25));
+			FF27:dffe port map( D(26),reloj,reset,'1'  , '1', Q(26));
+			FF28:dffe port map( D(27),reloj,reset,'1'  , '1', Q(27));
+			FF29:dffe port map( D(28),reloj,reset,'1'  , '1', Q(28));
+			FF30:dffe port map( D(29),reloj,reset,'1'  , '1', Q(29));
+			FF31:dffe port map( D(30),reloj,reset,'1'  , '1', Q(30));
+			FF32:dffe port map( D(31),reloj,reset,'1'  , '1', Q(31));
+			FF33:dffe port map( D(32),reloj,reset,'1'  , '1', Q(32));
+			FF34:dffe port map( D(33),reloj,reset,'1'  , '1', Q(33));
+			FF35:dffe port map( D(34),reloj,reset,'1'  , '1', Q(34));
+			FF36:dffe port map( D(35),reloj,reset,'1'  , '1', Q(35));
+			FF37:dffe port map( D(36),reloj,reset,'1'  , '1', Q(36));
+			FF38:dffe port map( D(37),reloj,reset,'1'  , '1', Q(37));
+			FF39:dffe port map( D(38),reloj,reset,'1'  , '1', Q(38));
+			FF40:dffe port map( D(39),reloj,reset,'1'  , '1', Q(39));
+			FF41:dffe port map( D(40),reloj,reset,'1'  , '1', Q(40));
+			FF42:dffe port map( D(41),reloj,reset,'1'  , '1', Q(41));
+			FF43:dffe port map( D(42),reloj,reset,'1'  , '1', Q(42));
+			FF44:dffe port map( D(43),reloj,reset,'1'  , '1', Q(43));
+			FF45:dffe port map( D(44),reloj,reset,'1'  , '1', Q(44));
+			FF46:dffe port map( D(45),reloj,reset,'1'  , '1', Q(45));
+			FF47:dffe port map( D(46),reloj,reset,'1'  , '1', Q(46));
+			FF48:dffe port map( D(47),reloj,reset,'1'  , '1', Q(47));
+			FF49:dffe port map( D(48),reloj,reset,'1'  , '1', Q(48));
+			FF50:dffe port map( D(49),reloj,reset,'1'  , '1', Q(49));
+			FF51:dffe port map( D(50),reloj,reset,'1'  , '1', Q(50));
+			FF52:dffe port map( D(51),reloj,reset,'1'  , '1', Q(51));
+			FF53:dffe port map( D(52),reloj,reset,'1'  , '1', Q(52));
+			FF54:dffe port map( D(53),reloj,reset,'1'  , '1', Q(53));
+			FF55:dffe port map( D(54),reloj,reset,'1'  , '1', Q(54));
+			FF56:dffe port map( D(55),reloj,reset,'1'  , '1', Q(55));
+			FF57:dffe port map( D(56),reloj,reset,'1'  , '1', Q(56));
+			FF58:dffe port map( D(57),reloj,reset,'1'  , '1', Q(57));
+			FF59:dffe port map( D(58),reloj,reset,'1'  , '1', Q(58));
+			FF60:dffe port map( D(59),reloj,reset,'1'  , '1', Q(59));
+			FF61:dffe port map( D(60),reloj,reset,'1'  , '1', Q(60));
+			FF62:dffe port map( D(61),reloj,reset,'1'  , '1', Q(61));
+			FF63:dffe port map( D(62),reloj,reset,'1'  , '1', Q(62));
+			FF64:dffe port map( D(63),reloj,reset,'1'  , '1', Q(63));
+			FF65:dffe port map( D(64),reloj,reset,'1'  , '1', Q(64));
+			FF66:dffe port map( D(65),reloj,reset,'1'  , '1', Q(65));
+			FF67:dffe port map( D(66),reloj,reset,'1'  , '1', Q(66));
+			FF68:dffe port map( D(67),reloj,reset,'1'  , '1', Q(67));
+			FF69:dffe port map( D(68),reloj,reset,'1'  , '1', Q(68));
+			FF70:dffe port map( D(69),reloj,reset,'1'  , '1', Q(69));
+			FF71:dffe port map( D(70),reloj,reset,'1'  , '1', Q(70));
+			FF72:dffe port map( D(71),reloj,reset,'1'  , '1', Q(71));
+			FF73:dffe port map( D(72),reloj,reset,'1'  , '1', Q(72));
+			FF74:dffe port map( D(73),reloj,reset,'1'  , '1', Q(73));
+			FF75:dffe port map( D(74),reloj,reset,'1'  , '1', Q(74));
+			FF76:dffe port map( D(75),reloj,reset,'1'  , '1', Q(75));
+			FF77:dffe port map( D(76),reloj,reset,'1'  , '1', Q(76));
+			FF78:dffe port map( D(77),reloj,reset,'1'  , '1', Q(77));
+			FF79:dffe port map( D(78),reloj,reset,'1'  , '1', Q(78));
+			FF80:dffe port map( D(79),reloj,reset,'1'  , '1', Q(79));
+			FF81:dffe port map( D(80),reloj,reset,'1'  , '1', Q(80));
+			FF82:dffe port map( D(81),reloj,reset,'1'  , '1', Q(81));
+			FF83:dffe port map( D(82),reloj,reset,'1'  , '1', Q(82));
+			FF84:dffe port map( D(83),reloj,reset,'1'  , '1', Q(83));
+			FF85:dffe port map( D(84),reloj,reset,'1'  , '1', Q(84));
+			FF86:dffe port map( D(85),reloj,reset,'1'  , '1', Q(85));
+
+		D( 0)<= NOT reset;
+		D( 1)<=  Q(0 )
+			  OR (Q(73) AND  NOT SR(5))
+			  OR (Q(73) AND (    SR(5) AND ( NOT IRQ(3) AND NOT IRQ(2) AND NOT IRQ(1) AND NOT IRQ(0) ) )  )
+ 		     OR  Q(73) AND (    SR(5) AND (     IRQ(3) OR      IRQ(2) OR      IRQ(1) OR      IRQ(0) ) AND (IRQ(1) AND SR(6)) )
+			  OR  Q(73) AND (    SR(5) AND (     IRQ(3) OR      IRQ(2) OR      IRQ(1) OR      IRQ(0) ) AND (IRQ(2) AND SR(6) AND SR(5)) )
+			  OR  Q(83)
+			  OR  Q(84)
+			  OR  Q(85);
+		D( 2)<=  Q(1 );
+		D( 3)<=  Q(2 );
+		D( 4)<=  Q(3 );
+		D( 5)<= (Q(4 ) AND ((NOT IR(15)AND NOT IR(14) AND NOT IR(13) AND     IR(12)) AND     IR(10)))
+			  OR (Q(4 ) AND  (NOT IR(15)AND     IR(14) AND NOT IR(13) AND NOT IR(12)))
+			  OR (Q(4 ) AND ((NOT IR(15)AND     IR(14) AND NOT IR(13) AND     IR(12)) AND(NOT IR(10) AND NOT IR(8))))
+			  OR (Q(4 ) AND ((    IR(15)AND     IR(14) AND NOT IR(13) AND     IR(12)) AND(    IR(11) AND NOT IR(10) AND IR(9 ))))
+			  OR (Q(4 ) AND ((    IR(15)AND NOT IR(14) AND NOT IR(13) AND     IR(12)) AND(    IR(11) AND NOT IR(10) AND IR(9 )))); 
+		D( 6)<=  Q(5 );
+		D( 7)<=  Q(6 );
+		D( 8)<=  Q(7 );
+		D( 9)<=  Q(16)
+			  OR  Q(17)
+			  OR  Q(66);
+		D(10)<= 	Q(9 );
+		D(11)<=  Q(10);
+		D(12)<=  Q(18)
+		     OR  Q(55);
+		D(13)<=  Q(12);
+		D(14)<=  Q(13);
+		D(15)<= (Q(4 ) AND ((NOT IR(15)AND NOT IR(14) AND NOT IR(13) AND     IR(12))AND NOT IR(10)))
+			  OR (Q(8 ) AND  (NOT IR(15)AND NOT IR(14) AND NOT IR(13) AND     IR(12))); 
+		D(16)<=  Q(8 ) AND  (NOT IR(15)AND     IR(14) AND NOT IR(13) AND NOT IR(12));
+		D(17)<= (Q(4 ) AND ((NOT IR(15)AND     IR(14) AND NOT IR(13) AND     IR(12))AND(NOT IR(10)AND NOT IR(9)AND NOT IR(8))))
+			  OR (Q(8 ) AND ((NOT IR(15)AND     IR(14) AND NOT IR(13) AND     IR(12))AND(NOT IR(10)AND NOT IR(9)AND NOT IR(8))));
+		D(18)<= (Q(4 ) AND ((NOT IR(15)AND     IR(14) AND NOT IR(13) AND     IR(12))AND(NOT IR(10)AND NOT IR(9))))
+			  OR (Q(8 ) AND ((NOT IR(15)AND     IR(14) AND NOT IR(13) AND     IR(12))AND(NOT IR(10)AND     IR(9))));
+		D(19)<=  Q(14) AND  (NOT IR(15)AND     IR(14) AND NOT IR(13) AND     IR(12));
+		D(20)<=  Q(4 ) AND ((NOT IR(15)AND     IR(14) AND NOT IR(13) AND     IR(12))AND(    IR(10)AND NOT IR(9)));
+		D(21)<=  Q(4 ) AND ((NOT IR(15)AND     IR(14) AND NOT IR(13) AND     IR(12))AND(    IR(10)AND     IR(9)));
+		D(22)<=  Q(4 ) AND ((    IR(15)AND NOT IR(14) AND     IR(13) AND NOT IR(12))AND NOT IR(11)); 
+		D(23)<=  Q(59) AND ((    IR(15)AND NOT IR(14) AND     IR(13) AND NOT IR(12))AND NOT IR(11)AND     CR(0));    
+		D(24)<=  Q(59) AND ((    IR(15)AND NOT IR(14) AND     IR(13) AND NOT IR(12))AND NOT IR(11)AND NOT CR(0));
+		D(25)<=  Q(4 ) AND ((    IR(15)AND NOT IR(14) AND     IR(13) AND NOT IR(12))AND     IR(11));
+		D(26)<=  Q(70) AND ((    IR(15)AND NOT IR(14) AND     IR(13) AND NOT IR(12))AND     IR(11)AND     CR(0)); 
+		D(27)<=  Q(70) AND ((    IR(15)AND NOT IR(14) AND     IR(13) AND NOT IR(12))AND     IR(11)AND NOT CR(0)); 
+		D(28)<=  Q(4 ) AND ((NOT IR(15)AND NOT IR(14) AND NOT IR(13) AND NOT IR(12))AND NOT IR(11));
+		D(29)<=  Q(4 ) AND ((NOT IR(15)AND NOT IR(14) AND NOT IR(13) AND NOT IR(12))AND     IR(11));
+		D(30)<=  Q(29)
+		     OR (Q(30) AND       CR(2 ));
+		D(31)<=  Q(4 ) AND ((NOT IR(15)AND NOT IR(14) AND     IR(13) AND NOT IR(12))AND NOT IR(9 ));
+		D(32)<=  Q(4 ) AND ((NOT IR(15)AND NOT IR(14) AND     IR(13) AND NOT IR(12))AND     IR(9 ));
+		D(33)<=  Q(4 ) AND ((NOT IR(15)AND     IR(14) AND     IR(13) AND NOT IR(12))AND NOT IR(11));
+		D(34)<=  Q(33)
+		     OR  Q(38);
+		D(35)<= 	Q(34);
+		D(36)<=  Q(4 ) AND ((NOT IR(15)AND     IR(14) AND     IR(13) AND NOT IR(12))AND     IR(11));
+		D(37)<=  Q(4 ) AND  (    IR(15)AND     IR(14) AND     IR(13) AND NOT IR(12));
+		D(38)<= (Q(37) AND ((NOT IR(11)AND NOT IR(10) AND NOT IR(9 ))AND     SR( 0)))
+			  OR (Q(37) AND ((NOT IR(11)AND NOT IR(10) AND     IR(9 ))AND     SR( 1)))--REVISAR
+			  OR (Q(37) AND ((NOT IR(11)AND     IR(10) AND NOT IR(9 ))AND     SR( 2)));
+		D(39)<= (Q(37) AND ((    IR(11)AND NOT IR(10) AND NOT IR(9 ))AND     SR( 0)))
+			  OR (Q(37) AND ((    IR(11)AND NOT IR(10) AND     IR(9 ))AND     SR( 1)))--REVISAR
+			  OR (Q(37) AND ((    IR(11)AND     IR(10) AND NOT IR(9 ))AND     SR( 2)));
+		D(40)<=  Q(4 ) AND ((NOT IR(15)AND NOT IR(14) AND     IR(13) AND     IR(12)) AND(NOT IR(11) AND NOT IR(10))); 
+		D(41)<=  Q(4 ) AND ((NOT IR(15)AND NOT IR(14) AND     IR(13) AND     IR(12)) AND(NOT IR(11) AND     IR(10))); 
+		D(42)<=  Q(4 ) AND ((NOT IR(15)AND NOT IR(14) AND     IR(13) AND     IR(12)) AND(    IR(11) AND NOT IR(10))); 
+		D(43)<=  Q(4 ) AND ((NOT IR(15)AND     IR(14) AND     IR(13) AND     IR(12)) AND(NOT IR(11) AND NOT IR(10) AND     IR(9 ))); --     ( ((IR[15]'.IR[14] .IR[13] .IR[12] ).(IR[11]'.IR[10]'.IR[09] )) X 43)+ 
+		D(44)<=  Q(4 ) AND ((NOT IR(15)AND     IR(14) AND     IR(13) AND     IR(12)) AND(NOT IR(11) AND     IR(10) AND     IR(9 )));
+		D(45)<=  Q(4 ) AND ((NOT IR(15)AND     IR(14) AND     IR(13) AND     IR(12)) AND(    IR(11) AND NOT IR(10) AND     IR(9 )));
+		D(46)<=  Q(4 ) AND ((NOT IR(15)AND     IR(14) AND     IR(13) AND     IR(12)) AND(NOT IR(11) AND     IR(10) AND NOT IR(9 )));
+		D(47)<= (Q(4 ) AND (     IR(15)AND NOT IR(14) AND     IR(13) AND     IR(12)))
+			  OR (Q(47) AND   NOT SR(4 ));
+		D(48)<= (Q(47) AND       SR(4 ));
+		D(49)<=  Q(4 ) AND ((    IR(15)AND     IR(14)AND NOT  IR(13) AND     IR(12)) AND(NOT IR(11) AND NOT IR(10) AND NOT IR(9 )));
+		D(50)<=  Q(4 ) AND ((    IR(15)AND     IR(14)AND NOT  IR(13) AND     IR(12)) AND(NOT IR(11) AND NOT IR(10) AND     IR(9 )));
+		D(51)<=  Q(4 ) AND ((    IR(15)AND     IR(14)AND NOT  IR(13) AND     IR(12)) AND(NOT IR(11) AND     IR(10) AND NOT IR(9 )));
+		D(52)<=  Q(4 ) AND ((    IR(15)AND     IR(14)AND NOT  IR(13) AND     IR(12)) AND(NOT IR(11) AND     IR(10) AND     IR(9 )));
+		D(53)<=  Q(4 ) AND ((    IR(15)AND     IR(14)AND NOT  IR(13) AND     IR(12)) AND(    IR(11) AND NOT IR(10) AND NOT IR(9 )));
+		D(54)<=  Q(53);
+		D(55)<=  Q(8 ) AND  (    IR(15)AND     IR(14)AND NOT  IR(13) AND     IR(12));
+		D(56)<= (Q(14) AND  (    IR(15)AND NOT IR(14)AND NOT  IR(13) AND     IR(12)))
+		     OR  Q(22)
+			  OR  Q(23)
+			  OR  Q(49)
+			  OR  Q(50)
+			  OR  Q(51)
+			  OR  Q(52)
+			  OR  Q(54);
+		D(57)<=  Q(56);
+		D(58)<=  Q(57);
+		D(59)<=  Q(58);
+		D(60)<=  Q(70) AND ((    IR(15)AND NOT IR(14) AND NOT IR(13) AND     IR(12)) AND(NOT IR(11) AND NOT IR(10) AND NOT IR(9));    ); 
+		D(61)<=  Q(70) AND ((    IR(15)AND NOT IR(14) AND NOT IR(13) AND     IR(12)) AND(NOT IR(11) AND NOT IR(10) AND     IR(9));
+		D(62)<=  Q(70) AND ((    IR(15)AND NOT IR(14) AND NOT IR(13) AND     IR(12)) AND(NOT IR(11) AND     IR(10) AND NOT IR(9));
+		D(63)<=  Q(70) AND ((    IR(15)AND NOT IR(14) AND NOT IR(13) AND     IR(12)) AND(NOT IR(11) AND     IR(10) AND     IR(9));
+		D(64)<=  Q(70) AND ((    IR(15)AND NOT IR(14) AND NOT IR(13) AND     IR(12)) AND(    IR(11) AND NOT IR(10) AND NOT IR(9));
+		D(65)<=  Q(64)
+		     OR (Q(70) AND ((    IR(15)AND NOT IR(14) AND NOT  IR(13) AND     IR(12)) AND(   IR(11) AND NOT IR(10) AND     IR(9))));
+		D(66)<=  Q(25)
+			  OR  Q(26)
+			  OR (Q(70) AND ((    IR(15)AND NOT IR(14) AND NOT  IR(13) AND     IR(12)) AND (    IR(11) AND     IR(10)AND NOT IR(9))));
+		D(67)<= (Q(4 ) AND (     IR(15)AND NOT IR(14) AND NOT  IR(13) AND     IR(12)) AND (    IR(10) OR      IR(9)))
+			  OR (Q(4 ) AND (     IR(15)AND NOT IR(14) AND NOT  IR(13) AND     IR(12)) AND (NOT IR(10) AND NOT IR(9)))
+			  OR (Q(8 ) AND (     IR(15)AND NOT IR(14) AND NOT  IR(13) AND     IR(12));
+		D(68)<=  Q(67);
+		D(69)<=  Q(68);
+		D(70)<=  Q(69);
+		D(71)<=  Q(4 ) AND ((    IR(15)AND     IR(14)AND     IR(13) AND     IR(12)) AND( NOT IR(11) ));
+		D(72)<=  Q(4 ) AND ((    IR(15)AND     IR(14)AND     IR(13) AND     IR(12)) AND(     IR(11) ));
+		D(73)<=  Q(11)
+			  OR  Q(14) AND  (    IR(15)AND NOT IR(14)AND NOT IR(13) AND     IR(12))
+			  OR  Q(15)
+			  OR  Q(19)
+			  OR  Q(20)
+			  OR  Q(21)
+			  OR  Q(24)
+			  OR  Q(27)
+			  OR  Q(28)
+			  OR (Q(30) AND       CR(1 ))
+			  OR  Q(31)
+			  OR  Q(32)
+			  OR  Q(35)
+			  OR  Q(36)
+			  OR (Q(37) AND ((NOT IR(11)AND NOT IR(10) AND NOT IR(9 ))AND NOT SR( 0)))
+			  OR (Q(37) AND ((NOT IR(11)AND NOT IR(10) AND     IR(9 ))AND NOT SR( 1)))--REVISAR
+			  OR (Q(37) AND ((NOT IR(11)AND     IR(10) AND NOT IR(9 ))AND NOT SR( 2)))
+			  OR (Q(37) AND ((    IR(11)AND NOT IR(10) AND NOT IR(9 ))AND NOT SR( 0)))
+			  OR (Q(37) AND ((    IR(11)AND NOT IR(10) AND     IR(9 ))AND NOT SR( 1)))--REVISAR
+			  OR (Q(37) AND ((    IR(11)AND     IR(10) AND NOT IR(9 ))AND NOT SR( 2)))
+			  OR  Q(39)
+			  OR  Q(40)
+			  OR  Q(41)
+			  OR  Q(42)
+			  OR  Q(43)
+			  OR  Q(44)
+			  OR  Q(45)
+			  OR  Q(46)
+			  OR  Q(48)
+			  OR (Q(59) AND (    IR(15)AND NOT IR(14) AND     IR(13) AND NOT IR(12)))
+			  OR  Q(60)
+			  
+			  OR  Q(61)
+			  OR  Q(62)
+			  OR  Q(63)
+			  OR  Q(65)
+			  OR  Q(71)
+			  OR  Q(72);
+		D(74)<=  Q(78)
+			  OR  Q(79)
+			  OR  Q(80)
+			  OR  Q(81);
+		D(75)<=  Q(74);
+		D(76)<=  Q(75);
+		D(77)<=  Q(76);
+		D(78)<=  Q(73) AND (    SR(5) AND ( IRQ(3) OR IRQ(2) OR IRQ(1) OR IRQ(0) ) AND  IRQ(0) )
+			  OR  Q(73) AND (    SR(5) AND ( IRQ(3) OR IRQ(2) OR IRQ(1) OR IRQ(0) ) AND (IRQ(1) AND NOT SR(6)) )
+  		     OR  Q(73) AND (    SR(5) AND ( IRQ(3) OR IRQ(2) OR IRQ(1) OR IRQ(0) ) AND (IRQ(2) AND NOT SR(6) AND NOT SR(5)) );
+		D(79)<=  Q(77) AND (    CR(1) AND     CR(0));
+		D(80)<=  Q(77) AND (    CR(1) AND NOT CR(0));
+		D(81)<=  Q(77) AND (NOT CR(1) AND     CR(0));
+		D(82)<=  Q(77) AND (NOT CR(1) AND NOT CR(0));
+		D(83)<=  Q(82) AND     IRQ(0);
+		D(84)<=  Q(82) AND (   IRQ(1) AND NOT SR(6));
+		D(85)<=  Q(82) AND (   IRQ(2) AND NOT SR(6) AND NOT SR(5));
+		--**************************************************************************************		
+		Qs<=Q;
+		
+		Control_Registros<=				Q(0); --Senal de control que establece el valor de los registros en '1'
+		Control_MAR(0)<=				Q(9) OR Q(10) OR Q(11) OR Q(12) OR Q(13) OR Q(14) OR Q(16) OR Q(17) OR Q(18)
+												OR Q(55) OR Q(63) OR Q(66); --Senal de enable del mar desde control
+		Control_MAR(1)<=					Q(9) OR Q(10) OR Q(11) OR Q(12) OR Q(13) OR Q(14) OR Q(16) OR Q(17) OR Q(18)
+												OR Q(55) OR Q(66); --Senal de control para que el MAR reciba el valor de ir(11:0)
+		Control_MAR(2)<=					Q(63);--Senal de control escribe en MAR el MDR
+		
+		Control_OutputSelector(0)<=	Q(1 ) OR Q(2) OR Q(3) OR Q(5) OR Q(6) OR Q(7) OR Q(56) OR Q(67) OR Q(68) OR Q(69)
+												OR Q(74) OR Q(75) OR Q(76); --Senal de enable del OS desde control para que reciba datos
+		Control_OutputSelector(1)<=	Q(1 ) OR Q(2) OR Q(3) OR Q(5) OR Q(6) OR Q(7); --Senal de control del mar desde control para que almacene los datos del PC NOTA: bit11 oUTPUT recibe not esta senal
+		Control_OutputSelector(2)<=	Q(56) OR Q(57) OR Q(58) OR Q(67) OR Q(68) OR Q(69) OR Q(74) OR Q(75) OR Q(76); Senal de enable para recibir los datos del sp		
+
+		Control_IR<=						Q(3);--Senal de enable de IR
+		
+		Control_PC(0)<=					Q(4 ) OR Q(8);--Senal de enable de incremento de PC
+		Control_PC(1)<=					Q(24) OR Q(27) OR Q(35) OR Q(36) OR Q(39) OR Q(60) OR Q(83) OR Q(84) OR Q(85); Senal de enable para reemplazar el dato de PC
+		Control_PC(2)<=					Q(24) OR Q(36);--Senal de enable de PC para recibir IR
+		Control_PC(3)<=					Q(27) OR Q(60);--Senal de enable de PC para recibir MDR0
+		Control_PC(4)<=					Q(35) OR Q(39);--Senal de enable de PC para recibir Acc2
+		Control_PC(5)<=					Q(83);--Recibe el valor del registro 7, el cual es la direccion del programa del P1
+		Control_PC(6)<=					Q(84);--Recibe el valor del registro 8, el cual es la direccion del programa del P2
+		Control_PC(7)<=					Q(85);--Recibe el valor del registro 9, el cual es la direccion del programa del P3
+ 		
+		Control_IRL<=						Q(7);--Senal de enable de IRL para que tome el valor de IR
+		
+		RNW<=									Q(9 ) OR Q(10) OR Q(11) OR Q(56) OR Q(57) OR Q(58) OR (NOT Q(67)) OR (NOT Q(68)) OR (NOT Q(69))
+												OR Q(74) OR Q(75) OR Q(76);
+		
+		Control_Bidir(0)<=				Q(9 ) OR Q(10) OR Q(11) OR Q(56) OR Q(57) OR Q(58) OR Q(74) OR Q(75) OR Q(76);--Bidir de salida, envia el contenido de MDR como salida, sobreescribe su valor con lo ingresado de MDR
+		Control_Bidir(1)<=				Q(14) OR Q(69);--Bidir de entrada, en 1 cuando recibe datos, sobreescribe su valor con lo ingresado de RW
+		
+		IRSelect<=							(Q(15) AND IR(10)) OR (Q(17) AND IR(8)) OR (Q(18) AND IR(8)) OR Q(55) OR Q(66);--0 IR 1 IRL
+
+		Control_Acc1(0)<=					(Q(15)AND NOT IR(11)) OR (Q(19)AND NOT IR(11)) OR (Q(21)AND NOT IR(11)) OR (Q(33))
+												OR Q(38) OR (Q(61)AND NOT IR(8));--Enable de acumulador, 1 para recibir nuevo dato
+		Control_Acc1(1)<=					(Q(15)AND NOT IR(11));--Enable de acumulador, 1 para recibir IRLogic
+		Control_Acc1(2)<=					(Q(19)AND NOT IR(11)) OR (Q(61)AND NOT IR(8));--Enable de acumulador, 1 para recibir MDR
+		Control_Acc1(3)<=					(Q(21)AND NOT IR(11));--Enable de acumulador, 1 para recibir datos del register
+		Control_Acc1(4)<=				 	Q(33) OR Q(38);--Enable de acumulador 1 para recibir PC
+		ShiftEnableAcc1<=					Q(31)AND NOT IR(11);
+		ArShiftEnableAcc1<=				Q(32)AND NOT IR(11);
+		LRNAcc1<=							IR(10);
+		
+		Control_Acc2(0)<=					(Q(15)AND IR(11)) OR (Q(19)AND IR(11)) OR (Q(21)AND IR(11)) OR (Q(33)) OR Q(34)
+												OR Q(37) OR Q(40) OR Q(41) OR Q(42) OR Q(43) OR Q(44) OR Q(45) OR Q(48) OR Q(53)
+												OR (Q(61)AND IR(8)) OR Q(64);--Enable de acumulador, 2 para recibir nuevo dato
+		Control_Acc2(1)<=					(Q(15)AND IR(11)) OR  Q(33);--Enable de acumulador, 2 para recibir IRLogic
+		Control_Acc2(2)<=					(Q(19)AND IR(11)) OR (Q(61)AND IR(8)) OR Q(64);--Enable de acumulador, 2 para recibir MDR
+		Control_Acc2(3)<=					(Q(21)AND IR(11)) OR Q(37) OR Q(53);--Enable de acumulador, 2 para recibir datos del register
+		Control_Acc2(4)<=					Q(34) OR Q(40) OR Q(41) OR Q(42) OR Q(43) OR Q(44) OR Q(45) OR Q(48);--Enable de acumulador, 2 para recibir datos de la ALU
+		ShiftEnableAcc2<=					Q(31)AND IR(11);
+		ArShiftEnableAcc2<=				Q(32)AND IR(11);
+		LRNAcc2<=							IR(10);	
+
+		Control_MDR(0)<=					Q(14) OR Q(16) OR Q(17) OR Q(22) OR Q(23) OR Q(49) OR Q(50) OR Q(51) OR Q(52)
+												OR Q(54)  OR Q(78) OR Q(79) OR Q(80) OR Q(81);--Enable de MDR para que reciba nuevos datos
+		Control_MDR(1)<=					Q(14) OR Q(69);--Enable de MDR para que reciba los datos del bidir
+		Control_MDR(2)<=					Q(16);--Enable de MDR para que reciba los datos de IRL
+		Control_MDR(3)<=	     		   (Q(17) AND NOT IR(11)) OR (Q(50) AND NOT IR(8))  OR Q(78);--Enable de MDR para que reciba los datos de Acc1
+		Control_MDR(4)<=	   		   (Q(17) AND     IR(11)) OR (Q(50) AND      IR(8)) OR Q(54) OR Q(79);--Enable de MDR para que reciba los datos de Acc2
+		Control_MDR(5)<=					Q(22) OR Q(49) OR Q(81);--Enable de MDR para recibir PC
+		Control_MDR(6)<=					Q(23) OR Q(51);--Enable de MDR para recibir SR, 
+		Control_MDR(7)<=					Q(52);--Enable de MDR para recibir MAR
+		Control_MDR(8)<=					Q(80);--el MDR recibe solo los bits del 0 al 4 del SR el resto es cero
+		
+		Control_Registros(0)<= 			Q(20) OR Q(65);--Enable de los registros para guardar un valor
+		Control_Registros(1)<= 			(Q(20) AND NOT IR(11));--Enable para tomar el valor de Acc1
+		Control_Registros(2)<= 			(Q(20) AND     IR(11)) OR Q(65);--Enable para tomar el valor de Acc2
+
+		Control_CR(0)<=					Q(22) OR Q(25) OR Q(29) OR Q(78);--enable para que reemplace su valor
+		Control_CR(1)<=					Q(23) OR Q(26) OR (30) OR Q(79) OR Q(80) OR Q(81);--enable para decrementar
+		Control_CR(2)<=					Q(22) OR Q(25) OR Q(78);--enable para recibir mini conteo
+		Control_CR(3)<=					Q(29) ;--enable para recibir IR
+
+		MiniCount(0)<=					Q(22) OR Q(25)  OR Q(78);
+		MiniCount(1)<=					(NOT Q(22)) OR (NOT Q(25)) OR Q(78);
+
+		Control_SR(0)<=				Q(26) OR Q(45) OR Q(62) OR Q(71) OR Q(72) OR Q(83) OR Q(84) OR Q(85);--enable
+		Control_SR(1)<=				Q(26) OR Q(62);--enableMDR
+		Control_SR(2)<=				Q(45);--enableALU
+		Control_SR(3)<=				Q(71) OR NOT Q(72);--Senal directa al bit de Interrupciones del SR
+		Control_SR(4)<=				Q(83);--Senal directa al bit de p1 del SR
+		Control_SR(5)<=				Q(84);--Senal directa al bit de p2 del SR
+		Control_SR(6)<=				Q(85);--Senal directa al bit de p3 del SR
+
+		Control_ALU(0)<=				Q(34) OR Q(40) OR Q(41) OR Q(42) OR Q(43) OR Q(44) OR Q(45) OR Q(46) OR Q(47);--34 SUM, 40 OR, 41 AND,42 NOT, 43 sum, 44 RESTA,45 2sC, 46 RESTA, 47 Multiply
+		Control_ALU(1)<=				Q(34) OR Q(40) OR Q(41) OR Q(42) OR Q(43) OR Q(44) OR Q(45) OR Q(46) OR Q(47);
+		Control_ALU(2)<=				Q(34) OR Q(40) OR Q(41) OR Q(42) OR Q(43) OR Q(44) OR Q(45) OR Q(46) OR Q(47);
+		
+		Control_SP<=					Q(59) OR Q(70) OR Q(77);--Senal de control de incremento de SP
+End  ControlArch;
