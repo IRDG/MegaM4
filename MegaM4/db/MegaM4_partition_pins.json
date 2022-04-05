@@ -1,0 +1,253 @@
+{
+	"partitions" : [
+		{
+			"name" : "Top",
+			"pins" : [
+				{
+					"name" : "ACK[0]",
+					"strict" : false
+				},
+				{
+					"name" : "ACK[1]",
+					"strict" : false
+				},
+				{
+					"name" : "RNW",
+					"strict" : false
+				},
+				{
+					"name" : "Address[0]",
+					"strict" : false
+				},
+				{
+					"name" : "Address[1]",
+					"strict" : false
+				},
+				{
+					"name" : "Address[2]",
+					"strict" : false
+				},
+				{
+					"name" : "Address[3]",
+					"strict" : false
+				},
+				{
+					"name" : "Address[4]",
+					"strict" : false
+				},
+				{
+					"name" : "Address[5]",
+					"strict" : false
+				},
+				{
+					"name" : "Address[6]",
+					"strict" : false
+				},
+				{
+					"name" : "Address[7]",
+					"strict" : false
+				},
+				{
+					"name" : "Address[8]",
+					"strict" : false
+				},
+				{
+					"name" : "Address[9]",
+					"strict" : false
+				},
+				{
+					"name" : "Address[10]",
+					"strict" : false
+				},
+				{
+					"name" : "Address[11]",
+					"strict" : false
+				},
+				{
+					"name" : "State[0]",
+					"strict" : false
+				},
+				{
+					"name" : "State[1]",
+					"strict" : false
+				},
+				{
+					"name" : "State[2]",
+					"strict" : false
+				},
+				{
+					"name" : "State[3]",
+					"strict" : false
+				},
+				{
+					"name" : "State[4]",
+					"strict" : false
+				},
+				{
+					"name" : "State[5]",
+					"strict" : false
+				},
+				{
+					"name" : "State[6]",
+					"strict" : false
+				},
+				{
+					"name" : "ClkOut",
+					"strict" : false
+				},
+				{
+					"name" : "DataRwm[0]",
+					"strict" : false
+				},
+				{
+					"name" : "DataRwm[1]",
+					"strict" : false
+				},
+				{
+					"name" : "DataRwm[2]",
+					"strict" : false
+				},
+				{
+					"name" : "DataRwm[3]",
+					"strict" : false
+				},
+				{
+					"name" : "DataRwm[4]",
+					"strict" : false
+				},
+				{
+					"name" : "DataRwm[5]",
+					"strict" : false
+				},
+				{
+					"name" : "DataRwm[6]",
+					"strict" : false
+				},
+				{
+					"name" : "DataRwm[7]",
+					"strict" : false
+				},
+				{
+					"name" : "DataRwm[8]",
+					"strict" : false
+				},
+				{
+					"name" : "DataRwm[9]",
+					"strict" : false
+				},
+				{
+					"name" : "DataRwm[10]",
+					"strict" : false
+				},
+				{
+					"name" : "DataRwm[11]",
+					"strict" : false
+				},
+				{
+					"name" : "DataRwm[12]",
+					"strict" : false
+				},
+				{
+					"name" : "DataRwm[13]",
+					"strict" : false
+				},
+				{
+					"name" : "DataRwm[14]",
+					"strict" : false
+				},
+				{
+					"name" : "DataRwm[15]",
+					"strict" : false
+				},
+				{
+					"name" : "Clk",
+					"strict" : false
+				},
+				{
+					"name" : "IRQ[0]",
+					"strict" : false
+				},
+				{
+					"name" : "Rst",
+					"strict" : false
+				},
+				{
+					"name" : "IRQ[1]",
+					"strict" : false
+				},
+				{
+					"name" : "IRQ[2]",
+					"strict" : false
+				},
+				{
+					"name" : "IRQ[3]",
+					"strict" : false
+				},
+				{
+					"name" : "DataRom[13]",
+					"strict" : false
+				},
+				{
+					"name" : "DataRom[12]",
+					"strict" : false
+				},
+				{
+					"name" : "DataRom[15]",
+					"strict" : false
+				},
+				{
+					"name" : "DataRom[14]",
+					"strict" : false
+				},
+				{
+					"name" : "DataRom[0]",
+					"strict" : false
+				},
+				{
+					"name" : "DataRom[8]",
+					"strict" : false
+				},
+				{
+					"name" : "DataRom[10]",
+					"strict" : false
+				},
+				{
+					"name" : "DataRom[9]",
+					"strict" : false
+				},
+				{
+					"name" : "DataRom[11]",
+					"strict" : false
+				},
+				{
+					"name" : "DataRom[5]",
+					"strict" : false
+				},
+				{
+					"name" : "DataRom[4]",
+					"strict" : false
+				},
+				{
+					"name" : "DataRom[7]",
+					"strict" : false
+				},
+				{
+					"name" : "DataRom[6]",
+					"strict" : false
+				},
+				{
+					"name" : "DataRom[1]",
+					"strict" : false
+				},
+				{
+					"name" : "DataRom[2]",
+					"strict" : false
+				},
+				{
+					"name" : "DataRom[3]",
+					"strict" : false
+				}
+			]
+		}
+	]
+}

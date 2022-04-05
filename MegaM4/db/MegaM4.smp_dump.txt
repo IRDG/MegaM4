@@ -1,0 +1,12 @@
+
+State Machine - |MegaM4|ArithmeticLogicUnit:ALU|Multiply:MultiplicationModule|StateMachine:Control|PrevState
+Name PrevState.EndAlgorithm2 PrevState.EndAlgorithm1 PrevState.AskEnd PrevState.Shift PrevState.OperateNegative PrevState.OperatePositive PrevState.AskNext PrevState.DataLoad PrevState.Standby 
+PrevState.Standby 0 0 0 0 0 0 0 0 0 
+PrevState.DataLoad 0 0 0 0 0 0 0 1 1 
+PrevState.AskNext 0 0 0 0 0 0 1 0 1 
+PrevState.OperatePositive 0 0 0 0 0 1 0 0 1 
+PrevState.OperateNegative 0 0 0 0 1 0 0 0 1 
+PrevState.Shift 0 0 0 1 0 0 0 0 1 
+PrevState.AskEnd 0 0 1 0 0 0 0 0 1 
+PrevState.EndAlgorithm1 0 1 0 0 0 0 0 0 1 
+PrevState.EndAlgorithm2 1 0 0 0 0 0 0 0 1 
